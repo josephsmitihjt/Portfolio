@@ -1,11 +1,5 @@
 import { imageUrl } from "../assets";
-import {
-  ArrowDown,
-  ArrowDownRight,
-  ArrowUpRight,
-  Asterisk,
-} from "lucide-react";
-import { site } from "../content";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 export function Hero() {
   return (
@@ -47,11 +41,6 @@ export function Hero() {
         </div>
         <div className="hero-portrait">
           <div className="portrait-orbit" />
-          <div className="portrait-caption">
-            <Asterisk size={21} /> PEOPLE FIRST.
-            <br />
-            SYSTEMS ALWAYS.
-          </div>
           <img
             src={imageUrl("joseph-smith.webp")}
             alt="Joseph Smith in profile"
@@ -59,17 +48,7 @@ export function Hero() {
             height="933"
             fetchPriority="high"
           />
-          <div className="portrait-name">
-            Joseph Smith<span>DESIGNER. STRATEGIST. BUILDER.</span>
-          </div>
           <span className="portrait-coordinate">30.2672° N / 97.7431° W</span>
-        </div>
-        <div className="hero-bottom">
-          <span>THOUGHTFUL WORK. MEANINGFUL IMPACT.</span>
-          <a href="#work" aria-label="Scroll to selected projects">
-            <span>SCROLL TO EXPLORE</span>
-            <ArrowDown size={16} />
-          </a>
         </div>
       </section>
       <section className="recognition" aria-label="Design recognition">

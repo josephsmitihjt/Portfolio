@@ -162,9 +162,11 @@ function ComponentArchitecture() {
 function StorySection({
   section,
   index,
+  prototype = false,
 }: {
   section: StudySection;
   index: number;
+  prototype?: boolean;
 }) {
   const images = section.images ?? [];
   return (
@@ -234,6 +236,58 @@ function StorySection({
               ))}
             </div>
           )
+        )}
+        {prototype && (
+          <figure className="study-prototype" aria-labelledby="prototype-title">
+            <span className="eyebrow">THE PROTOTYPE / 01:17</span>
+            <h3 id="prototype-title">See the investigation take shape.</h3>
+            <video
+              controls
+              playsInline
+              preload="none"
+              poster={imageUrl("case-studies/ueba-prototype-poster.webp")}
+              aria-label="UEBA prototype walkthrough"
+              aria-describedby="prototype-description"
+            >
+              <source
+                src={`${import.meta.env.BASE_URL}videos/ueba-prototype.mp4`}
+                type="video/mp4"
+              />
+              Your browser does not support video playback.{" "}
+              <a href={`${import.meta.env.BASE_URL}videos/ueba-prototype.mp4`}>
+                Download the prototype recording.
+              </a>
+            </video>
+            <figcaption id="prototype-description">
+              A silent walkthrough of the UEBA anomaly canvas: explore connected
+              events, query related entities, and add evidence to an
+              investigation.
+            </figcaption>
+            <details className="prototype-transcript">
+              <summary>Read the walkthrough description</summary>
+              <p>
+                The recording starts on John Doe’s anomaly canvas in IBM QRadar
+                Suite. Connected events include suspicious email, a risky URL,
+                compromised credentials, an unknown device, an abnormal login
+                location, and data exfiltration. Each event displays a risk
+                score and confidence level.
+              </p>
+              <p>
+                The analyst opens Add data and the “Build a search on related
+                entities” panel. They select user data, set a time window and
+                time zone, choose related entity types, and configure risk and
+                confidence thresholds. They run the query, then review the query
+                summary and grouped results.
+              </p>
+              <p>
+                The analyst expands an Apache web server result and adds it to
+                the canvas. The panel closes, and the new evidence appears as a
+                connected node with its own risk score and confidence level. The
+                recording demonstrates a design prototype, rather than a live
+                production investigation.
+              </p>
+            </details>
+          </figure>
         )}
         {section.quote && (
           <blockquote className="study-quote">
@@ -469,7 +523,12 @@ export function CaseStudy({ project }: { project: Project }) {
           </Reveal>
         </section>
         {study.sections.map((section, index) => (
-          <StorySection key={section.id} section={section} index={index} />
+          <StorySection
+            key={section.id}
+            section={section}
+            index={index}
+            prototype={project.id === "ueba" && section.id === "concept"}
+          />
         ))}
         <section
           className="study-impact"

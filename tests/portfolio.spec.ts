@@ -435,3 +435,100 @@ test("contact dialog meets automated accessibility checks", async ({
     })),
   ).toEqual([]);
 });
+
+test("requested typography and removals apply throughout the portfolio", async ({
+  page,
+}) => {
+  await page.evaluate(() => document.fonts.ready);
+  await expect(
+    page.locator(
+      ".portrait-name, .hero-bottom, .section-side-note, .section-heading > p, .portrait-caption",
+    ),
+  ).toHaveCount(0);
+  expect(
+    await page
+      .locator("h1")
+      .evaluate((el) => ({
+        family: getComputedStyle(el).fontFamily,
+        weight: getComputedStyle(el).fontWeight,
+      })),
+  ).toEqual({ family: '"Science Gothic Variable", sans-serif', weight: "400" });
+  expect(
+    await page
+      .locator(".hero-description")
+      .evaluate((el) => ({
+        family: getComputedStyle(el).fontFamily,
+        weight: getComputedStyle(el).fontWeight,
+      })),
+  ).toEqual({ family: "Montserrat, sans-serif", weight: "500" });
+  expect(
+    await page
+      .locator(".hero-intro")
+      .evaluate((el) => ({
+        family: getComputedStyle(el).fontFamily,
+        weight: getComputedStyle(el).fontWeight,
+      })),
+  ).toEqual({ family: "Doto, monospace", weight: "900" });
+  for (const route of ["", ...studies.map(([route]) => route + "/")]) {
+    await page.goto("./" + route);
+    const smallText = await page
+      .locator("body *")
+      .evaluateAll((elements) =>
+        elements
+          .filter(
+            (el) =>
+              [...el.childNodes].some(
+                (n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim(),
+              ) &&
+              el.getClientRects().length &&
+              getComputedStyle(el).display !== "none" &&
+              parseFloat(getComputedStyle(el).fontSize) < 14,
+          )
+          .map((el) => ({
+            tag: el.tagName,
+            class: el.className,
+            size: getComputedStyle(el).fontSize,
+          })),
+      );
+    expect(smallText).toEqual([]);
+  }
+});
+
+test("UEBA prototype loads, plays on demand and has a text alternative", async ({
+  page,
+}) => {
+  await page.goto("./ueba-project/");
+  const video = page.getByLabel("UEBA prototype walkthrough", { exact: true });
+  await expect(video).toHaveAttribute("controls", "");
+  await expect(video).not.toHaveAttribute("autoplay", "");
+  await expect(video).toHaveAttribute("preload", "none");
+  await expect(video.locator("source")).toHaveAttribute(
+    "src",
+    /videos\/ueba-prototype.mp4$/,
+  );
+  await video.evaluate(async (el: HTMLVideoElement) => {
+    el.load();
+    await new Promise<void>((resolve, reject) => {
+      el.addEventListener("loadedmetadata", () => resolve(), { once: true });
+      el.addEventListener(
+        "error",
+        () => reject(new Error("Video load failed")),
+        { once: true },
+      );
+    });
+    await el.play();
+  });
+  await expect
+    .poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime))
+    .toBeGreaterThan(0);
+  expect(
+    await video.evaluate((el: HTMLVideoElement) => el.duration),
+  ).toBeCloseTo(77.05, 1);
+  await video.evaluate((el: HTMLVideoElement) => el.pause());
+  await page
+    .getByText("Read the walkthrough description", { exact: true })
+    .click();
+  await expect(page.locator(".prototype-transcript")).toContainText(
+    "Apache web server",
+  );
+});

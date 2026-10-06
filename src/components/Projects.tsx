@@ -50,9 +50,6 @@ export function Work() {
             <span className="eyebrow">
               <span className="section-number">01</span> SELECTED PROJECTS
             </span>
-            <span className="section-side-note">
-              STRATEGY IN THE THINKING. CRAFT IN THE DETAILS.
-            </span>
           </div>
           <div className="section-heading">
             <h2 id="work-title">
@@ -60,11 +57,6 @@ export function Work() {
               <br />
               <span>Designed for impact.</span>
             </h2>
-            <p>
-              From complex security ecosystems
-              <br />
-              to the everyday shopping experience.
-            </p>
           </div>
         </Reveal>
         <div className="work-toolbar">

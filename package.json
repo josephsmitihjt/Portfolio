@@ -10,7 +10,9 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@fontsource/manrope": "^5.3.0",
+    "@fontsource-variable/science-gothic": "^5.3.0",
+    "@fontsource/doto": "^5.3.0",
+    "@fontsource/montserrat": "^5.3.0",
     "lucide-react": "^1.52.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

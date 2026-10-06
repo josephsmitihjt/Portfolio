@@ -21,7 +21,7 @@ npm run build
 npm run preview
 ```
 
-Deploy the contents of `dist/` to any static host. All fonts and project images are served locally. There are no required API keys, external runtime services, or backend dependencies.
+Deploy the contents of `dist/` to any static host. All fonts and project images are served locally. Headings use Science Gothic Regular, body text uses Montserrat Medium, and accent labels use Doto Black. Text is at least 14px across all breakpoints. There are no required API keys, external runtime services, or backend dependencies.
 
 ## GitHub Pages
 
@@ -89,3 +89,5 @@ Local image assets were downloaded from the same site and resized/compressed to 
 | `ueba-detail.webp`        | `4f3e9554a63a9b303116deaa2805d8ccd1bbb31f.png`             |
 
 No client data, credentials, or unpublished design files are included.
+
+The UEBA final-concept section embeds the supplied prototype recording as a silent, user-controlled MP4 with a poster and an expandable walkthrough description. The original video frames are preserved, the audio is removed at the owner’s request, and fast-start metadata supports streaming. Playback does not start automatically.

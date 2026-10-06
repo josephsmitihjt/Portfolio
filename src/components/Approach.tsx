@@ -16,7 +16,6 @@ export function Approach() {
           <span className="eyebrow">
             <span className="section-number">03</span> HOW I THINK
           </span>
-          <span className="section-side-note">GOOD WORK IS A TEAM SPORT</span>
         </div>
         <div className="approach-grid">
           <div className="approach-intro">

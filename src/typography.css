@@ -1,0 +1,134 @@
+@layer typography {
+  :root {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  body {
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  .wordmark-symbol,
+  .footer-brand,
+  .study-outcomes strong,
+  .research-metrics strong,
+  .context-metrics strong {
+    font-family: "Science Gothic Variable", sans-serif;
+    font-weight: 400;
+  }
+  .eyebrow,
+  .section-number,
+  .chapter-index,
+  .card-index,
+  .work-caption,
+  .hero-footnote,
+  .portrait-coordinate,
+  .recognition-label,
+  .study-breadcrumb > span,
+  .study-art-caption,
+  .study-art-company,
+  .study-facts dt {
+    font-family: "Doto", monospace;
+    font-weight: 900;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+  .study-prototype {
+    margin-top: 40px;
+  }
+  .study-prototype h3 {
+    font-size: clamp(24px, 3vw, 34px);
+    margin-bottom: 16px;
+  }
+  .study-prototype video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2624 / 1590;
+    background: #111;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .study-prototype figcaption,
+  .prototype-transcript {
+    margin-top: 16px;
+    font-size: 16px;
+    color: var(--muted);
+  }
+  .prototype-transcript summary {
+    cursor: pointer;
+    padding-block: 12px;
+    color: var(--ink);
+  }
+  .prototype-transcript p {
+    margin-top: 16px;
+    line-height: 1.8;
+  }
+}
+@layer typography {
+  @media (max-width: 1100px) {
+    .wordmark {
+      gap: 12px;
+      min-width: 0;
+      flex-shrink: 1;
+    }
+    .wordmark-name {
+      min-width: 0;
+    }
+    .wordmark-name > span {
+      letter-spacing: 0;
+      max-width: 180px;
+    }
+  }
+  @media (max-width: 700px) {
+    .header-inner {
+      gap: 12px;
+    }
+    .wordmark {
+      max-width: calc(100% - 88px);
+    }
+    .wordmark-name > span {
+      line-height: 1.35;
+    }
+    .hero-copy {
+      min-width: 0;
+    }
+    .hero h1 {
+      font-size: clamp(35px, 10.8vw, 64px);
+      letter-spacing: -0.04em;
+    }
+    .hero-actions {
+      flex-wrap: wrap;
+    }
+    .study-chapter-heading {
+      gap: 14px;
+    }
+    .study-chapter-heading > div {
+      min-width: 0;
+    }
+    .study-chapter h2,
+    .next-project h2 {
+      overflow-wrap: anywhere;
+    }
+    .recognition-inner {
+      padding-block: 24px;
+    }
+  }
+}
+@layer typography {
+  @media (max-width: 700px) {
+    .filters {
+      flex-wrap: wrap;
+      width: 100%;
+      border-radius: 18px;
+      justify-content: flex-start;
+    }
+    .filters > button {
+      white-space: nowrap;
+      min-height: 44px;
+      padding-inline: 12px;
+    }
+  }
+}
