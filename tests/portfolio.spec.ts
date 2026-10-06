@@ -77,68 +77,160 @@ test("filters projects and restores the full collection", async ({ page }) => {
   await expect(page.locator(".project-card")).toHaveCount(5);
 });
 
-test("case studies open, show details and outcomes, and restore focus on Escape", async ({
-  page,
-}) => {
-  const trigger = page.getByRole("button", {
-    name: "View QRadar SOAR Playbooks case study",
-    exact: true,
-  });
-  await trigger.click();
-  const dialog = page.getByRole("dialog");
-  await expect(dialog).toBeVisible();
-  await expect(page).toHaveURL(/project=soar/);
-  await expect(
-    dialog.getByRole("heading", { name: "My role", exact: true }),
-  ).toBeVisible();
-  await dialog
-    .getByRole("button", { name: "Design decisions", exact: true })
-    .click();
-  await expect(
-    dialog.getByRole("heading", { name: "Expertise over syntax" }),
-  ).toBeVisible();
-  await dialog.getByRole("button", { name: "Outcomes", exact: true }).click();
-  await expect(dialog.locator(".outcomes-grid")).toContainText("60×");
-  await expect(dialog.locator(".outcome-note")).toContainText(
-    "published project outcomes",
-  );
-  await page.keyboard.press("Escape");
-  await expect(dialog).toHaveCount(0);
-  await expect(trigger).toBeFocused();
-  await expect(page).not.toHaveURL(/project=/);
-});
-
-test("native modal contains keyboard focus and closes from its close control", async ({
+test("project links navigate to pages and browser Back restores the portfolio", async ({
   page,
 }) => {
   await page
-    .getByRole("button", { name: "View KwikKart case study", exact: true })
+    .getByRole("link", {
+      name: "View QRadar SOAR Playbooks case study",
+      exact: true,
+    })
     .click();
-  await expect(page.getByRole("dialog")).toContainText("NDA applies");
+  await expect(page).toHaveURL(/soar-playbooks-project\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "QRadar SOAR Playbooks",
+  );
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.goBack();
+  await expect(page.locator(".project-card")).toHaveCount(5);
+});
+
+test("legacy project links redirect to dedicated pages", async ({ page }) => {
+  await page.goto("./?project=ueba");
+  await expect(page).toHaveURL(/ueba-project\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "User & Entity Behavior Analytics",
+  );
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "User & Entity Behavior Analytics",
+  );
+});
+
+test("contact dialog contains keyboard focus and restores it on Escape", async ({
+  page,
+}) => {
+  const trigger = page.locator(".button-contact");
+  await trigger.click();
   for (let i = 0; i < 12; i++) {
     await page.keyboard.press("Tab");
     expect(
       await page.evaluate(() => !!document.activeElement?.closest("dialog")),
     ).toBe(true);
   }
-  await page.getByRole("button", { name: "Close dialog", exact: true }).click();
+  await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toHaveCount(0);
-  expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+  await expect(trigger).toBeFocused();
 });
 
-test("case-study URLs restore a project and browser Back closes it", async ({
+const studies = [
+  ["kwikkart-project", "KwikKart"],
+  ["soar-playbooks-project", "QRadar SOAR Playbooks"],
+  ["ueba-project", "User & Entity Behavior Analytics"],
+  ["figma-initiative", "Figma Initiative"],
+  ["qradar-ngsiem-project", "Next-Generation SIEM"],
+];
+
+for (const [route, title] of studies) {
+  test(`${title}: direct links, imagery, sections, responsive layout and accessibility`, async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    const response = await page.goto(`./${route}/`);
+    expect(response?.status()).toBe(200);
+    await page.reload();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(title);
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await revealAll(page);
+    await expect
+      .poll(() =>
+        page
+          .locator("img")
+          .evaluateAll((images) =>
+            images.every((image) => image.complete && image.naturalWidth > 0),
+          ),
+      )
+      .toBe(true);
+    await expect(page.locator(".study-chapter")).toHaveCount(
+      route === "ueba-project" ? 4 : 3,
+    );
+    await page
+      .getByRole("navigation", { name: "Case study sections" })
+      .getByRole("link", { name: "Impact", exact: true })
+      .click();
+    await expect(page).toHaveURL(/#outcomes$/);
+    for (const theme of ["light", "dark"]) {
+      await page.evaluate(
+        (theme) => (document.documentElement.dataset.theme = theme),
+        theme,
+      );
+      const result = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+        .analyze();
+      expect(
+        result.violations.map((v) => ({
+          id: v.id,
+          nodes: v.nodes.map((n) => ({
+            target: n.target,
+            summary: n.failureSummary,
+          })),
+        })),
+      ).toEqual([]);
+    }
+    for (const width of [320, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await expect
+        .poll(
+          () =>
+            page.evaluate(
+              () => document.documentElement.scrollWidth <= window.innerWidth,
+            ),
+          { message: `Overflow at ${width}` },
+        )
+        .toBe(true);
+    }
+    await expect(page.locator(".next-project-link")).toHaveAttribute(
+      "href",
+      /\/$/,
+    );
+    await page.locator(".next-project-link").click();
+    await expect(page.getByRole("heading", { level: 1 })).not.toContainText(
+      title,
+    );
+    await page.getByRole("link", { name: "All projects", exact: true }).click();
+    await expect(page).toHaveURL(/#work$/);
+    await expect(page.locator(".project-card")).toHaveCount(5);
+    expect(errors).toEqual([]);
+  });
+}
+
+test("toolbar comparison and library layers expose their selected states", async ({
   page,
 }) => {
-  await page.goto("./?project=ueba");
-  await expect(page.getByRole("dialog")).toHaveAccessibleName(
-    "User & Entity Behavior Analytics case study",
+  await page.goto("./soar-playbooks-project/");
+  await page.getByRole("button", { name: "Before", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Before", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".comparison-image img")).toHaveAttribute(
+    "src",
+    /toolbar-before/,
   );
-  await page.getByRole("button", { name: "Close dialog", exact: true }).click();
-  await page
-    .getByRole("button", { name: "View KwikKart case study", exact: true })
-    .click();
-  await page.goBack();
-  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "After", exact: true }).click();
+  await expect(page.locator(".comparison-image img")).toHaveAttribute(
+    "src",
+    /toolbar-after/,
+  );
+  await page.goto("./figma-initiative/");
+  await page.getByRole("button", { name: /Final component/ }).click();
+  await expect(
+    page.getByRole("button", { name: /Final component/ }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".architecture-detail")).toContainText(
+    "final table",
+  );
 });
 
 test("process accordion exposes the selected step", async ({ page }) => {
@@ -215,14 +307,14 @@ test("copies contact notes and shareable case-study URLs", async ({
   );
   await page.keyboard.press("Escape");
   await page
-    .getByRole("button", { name: "View KwikKart case study", exact: true })
+    .getByRole("link", { name: "View KwikKart case study", exact: true })
     .click();
-  await page.getByRole("button", { name: "Copy case-study link" }).click();
+  await page.getByRole("button", { name: "Copy link" }).click();
   await expect(page.getByRole("status")).toContainText(
     "Case-study link copied",
   );
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(
-    "?project=kwikkart",
+    "/kwikkart-project/",
   );
 });
 
@@ -325,30 +417,10 @@ test("main page meets automated WCAG 2 AA checks in both themes", async ({
   ).toEqual([]);
 });
 
-test("project and contact dialogs meet automated accessibility checks", async ({
+test("contact dialog meets automated accessibility checks", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page
-    .getByRole("button", {
-      name: "View QRadar SOAR Playbooks case study",
-      exact: true,
-    })
-    .click();
-  await page.getByRole("button", { name: "Outcomes", exact: true }).click();
-  const project = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-    .analyze();
-  expect(
-    project.violations.map((violation) => ({
-      id: violation.id,
-      nodes: violation.nodes.map((node) => ({
-        target: node.target,
-        summary: node.failureSummary,
-      })),
-    })),
-  ).toEqual([]);
-  await page.keyboard.press("Escape");
   await page.locator(".button-contact").click();
   const contact = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])

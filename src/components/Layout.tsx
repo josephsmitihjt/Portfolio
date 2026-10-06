@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
 import { site } from "../content";
+import { homeUrl } from "../routes";
 
 export function Header({
   onContact,
   theme,
   toggleTheme,
+  projectPage = false,
 }: {
   onContact: () => void;
   theme: string;
   toggleTheme: () => void;
+  projectPage?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("");
@@ -45,7 +48,7 @@ export function Header({
       <div className="header-inner container">
         <a
           className="wordmark"
-          href="#home"
+          href={homeUrl("home")}
           aria-label={`${site.name}, home`}
           onClick={() => setMenuOpen(false)}
         >
@@ -67,9 +70,15 @@ export function Header({
           ].map(([id, label]) => (
             <a
               key={id}
-              href={`#${id}`}
-              className={active === id ? "active" : ""}
-              aria-current={active === id ? "location" : undefined}
+              href={homeUrl(id)}
+              className={
+                active === id || (projectPage && id === "work") ? "active" : ""
+              }
+              aria-current={
+                active === id || (projectPage && id === "work")
+                  ? "location"
+                  : undefined
+              }
               onClick={() => setMenuOpen(false)}
             >
               {label}
@@ -120,7 +129,7 @@ export function Footer() {
   return (
     <footer className="footer">
       <div className="container footer-main">
-        <a className="footer-brand" href="#home">
+        <a className="footer-brand" href={homeUrl("home")}>
           Joseph Smith
           <span>
             Senior Product Designer
@@ -129,8 +138,8 @@ export function Footer() {
           </span>
         </a>
         <div className="footer-links">
-          <a href="#work">Projects</a>
-          <a href="#about">About</a>
+          <a href={homeUrl("work")}>Projects</a>
+          <a href={homeUrl("about")}>About</a>
           <a href={site.resume} target="_blank" rel="noopener noreferrer">
             Resume <ArrowUpRight size={13} />
           </a>
@@ -142,7 +151,7 @@ export function Footer() {
       <div className="container footer-bottom">
         <span>© {new Date().getFullYear()} Joseph Smith</span>
         <span>AUSTIN, TEXAS · DESIGNED WITH INTENTION</span>
-        <a href="#home">
+        <a href="#main">
           Back to top <ArrowUpRight size={14} />
         </a>
       </div>

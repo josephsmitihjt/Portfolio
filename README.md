@@ -49,20 +49,22 @@ npm test
 
 Playwright uses the cloud machine's `/usr/bin/chromium`. On another machine, point `PORTFOLIO_BROWSER_PATH` to a Chromium executable. Tests serve the production build on port 4173; run the build before testing.
 
-Tests cover project filtering, case-study contents, URL sharing, browser history, modal keyboard focus and focus restoration, contact validation and clipboard behavior, theme persistence, mobile navigation, small-screen overflow, reduced motion, local asset loading, and automated WCAG 2 AA checks with axe in both themes. Automated checks complement manual review; they are not an accessibility certification.
+Tests cover project filtering, all five case-study routes and refreshes, local project imagery, section and next-project navigation, toolbar comparison and component-layer states, URL sharing, browser history, contact-dialog keyboard focus and focus restoration, contact validation and clipboard behavior, theme persistence, mobile navigation, small-screen overflow, reduced motion, local asset loading, and automated WCAG 2 AA checks with axe in both themes. Automated checks complement manual review; they are not an accessibility certification.
 
 ## Components and content
 
 - `src/content.ts`: name, public links, project descriptions, roles, outcomes, employment, and process copy.
 - `src/components/Layout.tsx`: sticky navigation, mobile menu, theme control, and footer.
 - `src/components/Hero.tsx`: portrait, introduction, and recognition strip.
-- `src/components/Projects.tsx`: filters, project rows, and shareable case-study dialogs.
+- `src/components/Projects.tsx`: filters and project links to dedicated pages.
 - `src/components/About.tsx` and `Approach.tsx`: biography, experience, and process accordion.
 - `src/components/Contact.tsx`: contact section, LinkedIn link, private message draft, and clipboard feedback.
 - `src/components/shared.tsx`: viewport reveals and native modal behavior.
 - `src/styles.css`: visual tokens, responsive layouts, hover/active/focus states, and motion preferences.
 
-Case studies open at `?project=kwikkart`, `?project=soar`, `?project=ueba`, `?project=libraries`, or `?project=ngsiem`. The URL can be copied and reopened, and browser Back closes an opened study.
+Each project has a dedicated page: `/kwikkart-project/`, `/soar-playbooks-project/`, `/ueba-project/`, `/figma-initiative/`, and `/qradar-ngsiem-project/`. Vite builds a separate HTML entry for each route, so direct links and refreshes work on static hosting, including GitHub Pages. Older query-string links redirect to these pages.
+
+`src/components/CaseStudy.tsx` provides the page layout, section navigation, image galleries, toolbar comparison, component-layer explorer, impact section, and next-project navigation. `src/caseStudies.ts` contains each project's distinct narrative and figures; `src/case-studies.css` styles the responsive pages. Image sources are recorded in `docs/project-assets.json`.
 
 The contact dialog links to the verified LinkedIn profile and creates a copyable message. It **does not send messages** and stores no contact information persistently. Set a verified public `site.email` in `src/content.ts` to enable the optional email-app handoff. Theme preference is the only local-storage value.
 

@@ -1,15 +1,9 @@
+import { projectUrl } from "../routes";
 import { imageUrl } from "../assets";
 import { useState } from "react";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Check,
-  Copy,
-  LockKeyhole,
-  Trophy,
-} from "lucide-react";
-import { projects, site, type Project } from "../content";
-import { Modal, Reveal } from "./shared";
+import { ArrowUpRight, LockKeyhole, Trophy } from "lucide-react";
+import { projects, type Project } from "../content";
+import { Reveal } from "./shared";
 
 function ProjectImage({ project }: { project: Project }) {
   return (
@@ -39,7 +33,7 @@ function ProjectImage({ project }: { project: Project }) {
   );
 }
 
-export function Work({ onSelect }: { onSelect: (project: Project) => void }) {
+export function Work() {
   const [filter, setFilter] = useState("All projects");
   const visibleProjects = projects.filter(
     (project) => filter === "All projects" || project.category === filter,
@@ -107,9 +101,9 @@ export function Work({ onSelect }: { onSelect: (project: Project) => void }) {
         <div className="project-list" key={filter}>
           {visibleProjects.map((project) => (
             <Reveal key={project.id} className="project-reveal">
-              <button
+              <a
                 className={`project-card card-${project.id}`}
-                onClick={() => onSelect(project)}
+                href={projectUrl(project)}
                 aria-label={`View ${project.name} case study`}
               >
                 <div className="project-copy">
@@ -148,154 +142,11 @@ export function Work({ onSelect }: { onSelect: (project: Project) => void }) {
                 <span className="project-visit">
                   <ArrowUpRight size={24} />
                 </span>
-              </button>
+              </a>
             </Reveal>
           ))}
         </div>
       </div>
     </section>
-  );
-}
-
-export function ProjectModal({
-  project,
-  onClose,
-}: {
-  project: Project;
-  onClose: () => void;
-}) {
-  const [view, setView] = useState("Overview");
-  const [copyState, setCopyState] = useState("idle");
-  async function copyLink() {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopyState("copied");
-    } catch {
-      setCopyState("error");
-    }
-  }
-  return (
-    <Modal
-      title={`${project.name} case study`}
-      onClose={onClose}
-      className="project-modal"
-    >
-      <div className="case-study-header">
-        <span className="eyebrow">
-          {project.company.toUpperCase()} / {project.category.toUpperCase()}
-        </span>
-        <h2>{project.name}</h2>
-        <p>{project.title}</p>
-        <div className="case-study-facts">
-          <div>
-            <span>ROLE</span>
-            <strong>{project.role}</strong>
-          </div>
-          <div>
-            <span>DURATION</span>
-            <strong>{project.duration}</strong>
-          </div>
-          {project.nda && (
-            <span className="nda-notice">
-              <LockKeyhole size={12} /> Public information only · NDA applies
-            </span>
-          )}
-        </div>
-      </div>
-      <ProjectImage project={project} />
-      <div className="case-study-content">
-        <div
-          className="case-study-tabs"
-          role="group"
-          aria-label="Case study view"
-        >
-          {["Overview", "Design decisions", "Outcomes"].map((label) => (
-            <button
-              key={label}
-              aria-pressed={view === label}
-              className={view === label ? "selected" : ""}
-              onClick={() => setView(label)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <div className="case-study-panel" key={view}>
-          {view === "Overview" ? (
-            <>
-              <h3>My role</h3>
-              <p>{project.overview}</p>
-              <h3>The challenge</h3>
-              <p>{project.challenge}</p>
-              <h3>The approach</h3>
-              <p>{project.approach}</p>
-            </>
-          ) : view === "Design decisions" ? (
-            <>
-              <div className="decision-list">
-                {project.decisions.map((decision, index) => (
-                  <div key={decision.title}>
-                    <span>0{index + 1}</span>
-                    <div>
-                      <h3>{decision.title}</h3>
-                      <p>{decision.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {project.gallery?.map((image) => (
-                <figure className="case-study-gallery" key={image.src}>
-                  <img src={image.src} alt={image.alt} loading="lazy" />
-                  <figcaption>{image.caption}</figcaption>
-                </figure>
-              ))}
-            </>
-          ) : (
-            <>
-              <h3>The impact</h3>
-              <div className="outcomes-grid">
-                {project.outcomes.map((outcome) => (
-                  <div key={outcome.label}>
-                    <strong>{outcome.value}</strong>
-                    <span>{outcome.label}</span>
-                  </div>
-                ))}
-              </div>
-              {project.award && (
-                <div className="case-study-award">
-                  <Trophy size={19} />
-                  <span>{project.award}</span>
-                </div>
-              )}
-              <p className="outcome-note">{project.outcomeNote}</p>
-            </>
-          )}
-        </div>
-        <div className="case-study-actions">
-          <a
-            className="text-button"
-            href={`${site.referenceUrl}${project.sourcePath}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read the original case study <ArrowUpRight size={16} />
-          </a>
-          <button className="share-button" onClick={copyLink}>
-            {copyState === "copied" ? <Check size={14} /> : <Copy size={14} />}
-            {copyState === "copied" ? "Link copied" : "Copy case-study link"}
-          </button>
-        </div>
-        <p className="copy-feedback" role="status">
-          {copyState === "copied"
-            ? "Case-study link copied to clipboard."
-            : copyState === "error"
-              ? "Clipboard unavailable. Copy the URL from your address bar."
-              : ""}
-        </p>
-        <button className="text-button case-study-back" onClick={onClose}>
-          Back to projects <ArrowRight size={16} />
-        </button>
-      </div>
-    </Modal>
   );
 }

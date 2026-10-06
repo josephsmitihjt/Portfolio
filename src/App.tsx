@@ -1,18 +1,28 @@
+import { CaseStudy } from "./components/CaseStudy";
+import { projectUrl } from "./routes";
 import { useEffect, useState } from "react";
-import { projects, type Project } from "./content";
+import { projects } from "./content";
 import { Header, Footer } from "./components/Layout";
 import { Hero } from "./components/Hero";
-import { Work, ProjectModal } from "./components/Projects";
+import { Work } from "./components/Projects";
 import { About } from "./components/About";
 import { Approach } from "./components/Approach";
 import { ContactSection, ContactModal } from "./components/Contact";
 
 function projectFromUrl() {
-  const id = new URLSearchParams(window.location.search).get("project");
-  return projects.find((project) => project.id === id) ?? null;
+  const path = window.location.pathname
+    .replace(import.meta.env.BASE_URL, "")
+    .replace(/\/index\.html$/, "")
+    .replace(/\/$/, "");
+  const legacyId = new URLSearchParams(window.location.search).get("project");
+  return (
+    projects.find(
+      (project) => project.sourcePath === path || project.id === legacyId,
+    ) ?? null
+  );
 }
 export default function App() {
-  const [project, setProject] = useState<Project | null>(projectFromUrl);
+  const project = projectFromUrl();
   const [contactOpen, setContactOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     try {
@@ -35,22 +45,15 @@ export default function App() {
       ?.setAttribute("content", theme === "light" ? "#f4f3f0" : "#171717");
   }, [theme]);
   useEffect(() => {
-    const handleHistory = () => setProject(projectFromUrl());
-    window.addEventListener("popstate", handleHistory);
-    return () => window.removeEventListener("popstate", handleHistory);
-  }, []);
-  useEffect(() => {
     document.title = project
       ? `${project.name} — Joseph Smith`
       : "Joseph Smith — Senior Product Designer";
   }, [project]);
-  function selectProject(next: Project | null) {
-    const url = new URL(window.location.href);
-    if (next) url.searchParams.set("project", next.id);
-    else url.searchParams.delete("project");
-    window.history.pushState({}, "", url);
-    setProject(next);
-  }
+  useEffect(() => {
+    if (project && new URLSearchParams(window.location.search).has("project")) {
+      window.location.replace(projectUrl(project));
+    }
+  }, [project]);
   const openContact = () => setContactOpen(true);
   return (
     <>
@@ -58,25 +61,25 @@ export default function App() {
         Skip to content
       </a>
       <Header
+        projectPage={!!project}
         onContact={openContact}
         theme={theme}
         toggleTheme={() => setTheme(theme === "light" ? "dark" : "light")}
       />
       <main id="main">
-        <Hero />
-        <Work onSelect={selectProject} />
-        <About onContact={openContact} />
-        <Approach />
-        <ContactSection onContact={openContact} />
+        {project ? (
+          <CaseStudy project={project} />
+        ) : (
+          <>
+            <Hero />
+            <Work />
+            <About onContact={openContact} />
+            <Approach />
+            <ContactSection onContact={openContact} />
+          </>
+        )}
       </main>
       <Footer />
-      {project && (
-        <ProjectModal
-          key={project.id}
-          project={project}
-          onClose={() => selectProject(null)}
-        />
-      )}
       {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
     </>
   );
