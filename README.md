@@ -23,6 +23,23 @@ npm run preview
 
 Deploy the contents of `dist/` to any static host. All fonts and project images are served locally. There are no required API keys, external runtime services, or backend dependencies.
 
+## GitHub Pages
+
+The workflow `.github/workflows/deploy-pages.yml` builds and deploys on pushes to `main` and can also be run manually from the Actions tab. It uses GitHub's official Pages artifact and deployment actions; no personal access token is stored in the repository.
+
+In the repository's **Settings → Pages → Build and deployment**, choose **GitHub Actions** as the source. If Pages is unavailable, check whether your GitHub plan supports Pages for this private repository. The setup does not change repository visibility.
+
+After enabling Pages, open **Actions → Deploy portfolio to GitHub Pages → Run workflow**. A successful deployment will show the live site URL. The expected default URL is `https://josephsmitihjt.github.io/Portfolio/`; it becomes available only after Pages is enabled and deployment succeeds. A configured custom domain can change that URL.
+
+The workflow builds with `/Portfolio/` as the base path. Image and favicon URLs follow Vite's base, so both repository hosting and root hosting work. To validate the Pages build locally:
+
+```sh
+npm run build -- --base=/Portfolio/
+PORTFOLIO_TEST_BASE_PATH=/Portfolio/ npm test
+```
+
+For root hosting, use the ordinary `npm run build` and `npm test` commands.
+
 ## Validation
 
 ```sh

@@ -23,7 +23,7 @@ async function revealAll(page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("./");
 });
 
 test("loads real portfolio content and local assets without runtime errors or overflow", async ({
@@ -129,7 +129,7 @@ test("native modal contains keyboard focus and closes from its close control", a
 test("case-study URLs restore a project and browser Back closes it", async ({
   page,
 }) => {
-  await page.goto("/?project=ueba");
+  await page.goto("./?project=ueba");
   await expect(page.getByRole("dialog")).toHaveAccessibleName(
     "User & Entity Behavior Analytics case study",
   );

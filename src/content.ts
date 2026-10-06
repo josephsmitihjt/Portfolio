@@ -1,3 +1,5 @@
+import { imageUrl } from "./assets";
+
 export const site = {
   name: "Joseph Smith",
   initials: "JS",
@@ -43,7 +45,7 @@ export const projects: Project[] = [
       "One lightweight device. A connected ecosystem for frictionless shopping, store intelligence, and in-aisle retail media.",
     category: "Product design",
     tags: ["Product leadership", "Hardware + software", "Retail"],
-    image: "/images/kwikkart.webp",
+    image: imageUrl("kwikkart.webp"),
     imageAlt: "KwikKart smart checkout device mounted on a shopping cart",
     company: "KwikKart",
     role: "Co-founder & Chief Product Officer",
@@ -89,7 +91,7 @@ export const projects: Project[] = [
       "Re-architecting security workflows so analysts can build powerful playbooks with less friction and less code.",
     category: "Product design",
     tags: ["Enterprise UX", "Low-code / no-code", "Cybersecurity"],
-    image: "/images/soar-playbooks.webp",
+    image: imageUrl("soar-playbooks.webp"),
     imageAlt: "Laptop displaying the IBM QRadar SOAR playbook designer",
     company: "IBM",
     role: "UX Designer & Strategist",
@@ -128,7 +130,7 @@ export const projects: Project[] = [
       "Results reported in the original case study: playbook creation decreased from 60 hours to 1 hour. These are published project outcomes, not independently audited measurements.",
     gallery: [
       {
-        src: "/images/soar-detail.webp",
+        src: imageUrl("soar-detail.webp"),
         alt: "Published QRadar SOAR design detail",
         caption: "A closer look at the published SOAR workflow design.",
       },
@@ -142,7 +144,7 @@ export const projects: Project[] = [
       "A research-led security experience that gives analysts the context to understand anomalies and take informed action.",
     category: "Product design",
     tags: ["UX research", "Systems thinking", "Cybersecurity"],
-    image: "/images/ueba.webp",
+    image: imageUrl("ueba.webp"),
     imageAlt: "IBM User and Entity Behavior Analytics interface",
     company: "IBM",
     role: "Lead UX Strategist & Designer",
@@ -180,7 +182,7 @@ export const projects: Project[] = [
       "Research participant counts and the design approach come from the published case study. The final experience is described there as a concept.",
     gallery: [
       {
-        src: "/images/ueba-detail.webp",
+        src: imageUrl("ueba-detail.webp"),
         alt: "Published UEBA concept showing the analyst investigation experience",
         caption: "The published UEBA investigation concept.",
       },
@@ -194,7 +196,7 @@ export const projects: Project[] = [
       "Scaling component libraries, improving design workflows, and helping designers build with confidence.",
     category: "Design systems",
     tags: ["Design systems", "Component architecture", "Mentorship"],
-    image: "/images/library-components.webp",
+    image: imageUrl("library-components.webp"),
     imageAlt:
       "Carbon Design System data table, item, and base component architecture in Figma",
     company: "IBM",
@@ -234,7 +236,7 @@ export const projects: Project[] = [
       "The source lists several efficiency figures without a common methodology. This summary focuses on documented deliverables rather than combining those percentages.",
     gallery: [
       {
-        src: "/images/library-components.webp",
+        src: imageUrl("library-components.webp"),
         alt: "Three layers of the Carbon data table: final table, items, and bases",
         caption:
           "Component layering: data table, reusable items, and foundational bases.",
@@ -249,7 +251,7 @@ export const projects: Project[] = [
       "A unified security product strategy built around analyst journeys, cross-product workflows, and shared direction.",
     category: "Strategy",
     tags: ["UX strategy", "Jobs to be done", "Product ecosystem"],
-    image: "/images/ngsiem.webp",
+    image: imageUrl("ngsiem.webp"),
     imageAlt:
       "IBM QRadar next-generation security information and event management product visual",
     company: "IBM",

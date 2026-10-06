@@ -1,3 +1,4 @@
+import { imageUrl } from "../assets";
 import { useState } from "react";
 import {
   ArrowRight,
@@ -24,7 +25,7 @@ function ProjectImage({ project }: { project: Project }) {
       {project.id === "libraries" && (
         <img
           className="figma-logo"
-          src="/images/figma.webp"
+          src={imageUrl("figma.webp")}
           alt="Figma"
           loading="lazy"
           width="474"

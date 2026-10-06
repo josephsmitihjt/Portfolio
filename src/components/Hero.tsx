@@ -1,3 +1,4 @@
+import { imageUrl } from "../assets";
 import {
   ArrowDown,
   ArrowDownRight,
@@ -52,7 +53,7 @@ export function Hero() {
             SYSTEMS ALWAYS.
           </div>
           <img
-            src="/images/joseph-smith.webp"
+            src={imageUrl("joseph-smith.webp")}
             alt="Joseph Smith in profile"
             width="1400"
             height="933"
