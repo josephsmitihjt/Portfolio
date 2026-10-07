@@ -256,3 +256,16 @@
     }
   }
 }
+@layer typography {
+  .contact-form-intro {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-top: 20px;
+  }
+  .contact-form-link {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 28px;
+  }
+}

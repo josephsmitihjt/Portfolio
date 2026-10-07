@@ -5,7 +5,7 @@ export const site = {
   initials: "JS",
   role: "Senior Product Designer",
   location: "Austin, Texas",
-  email: "",
+  contactForm: "https://forms.gle/93BukTyjxCL5ZKsm7",
   referenceUrl: "https://jtsmith.design/",
   linkedIn: "https://www.linkedin.com/in/joseph-smith-04a292127/",
   resume:

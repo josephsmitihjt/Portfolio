@@ -49,7 +49,7 @@ npm test
 
 Playwright uses the cloud machine's `/usr/bin/chromium`. On another machine, point `PORTFOLIO_BROWSER_PATH` to a Chromium executable. Tests serve the production build on port 4173; run the build before testing.
 
-Tests cover project filtering, all five case-study routes and refreshes, local project imagery, section and next-project navigation, toolbar comparison and component-layer states, URL sharing, browser history, contact-dialog keyboard focus and focus restoration, contact validation and clipboard behavior, theme persistence, mobile navigation, small-screen overflow, reduced motion, local asset loading, and automated WCAG 2 AA checks with axe in both themes. Automated checks complement manual review; they are not an accessibility certification.
+Tests cover project filtering, all five case-study routes and refreshes, local project imagery, section and next-project navigation, toolbar comparison and component-layer states, URL sharing, browser history, contact-dialog keyboard focus and focus restoration, Google Form contact handoff and case-study clipboard behavior, theme persistence, mobile navigation, small-screen overflow, reduced motion, local asset loading, and automated WCAG 2 AA checks with axe in both themes. Automated checks complement manual review; they are not an accessibility certification.
 
 ## Components and content
 
@@ -58,7 +58,7 @@ Tests cover project filtering, all five case-study routes and refreshes, local p
 - `src/components/Hero.tsx`: portrait, introduction, and recognition strip.
 - `src/components/Projects.tsx`: filters and project links to dedicated pages.
 - `src/components/About.tsx` and `Approach.tsx`: biography, experience, and process accordion.
-- `src/components/Contact.tsx`: contact section, LinkedIn link, private message draft, and clipboard feedback.
+- `src/components/Contact.tsx`: contact section and a Google Form handoff modal.
 - `src/components/shared.tsx`: viewport reveals and native modal behavior.
 - `src/styles.css`: visual tokens, responsive layouts, hover/active/focus states, and motion preferences.
 
@@ -66,7 +66,7 @@ Each project has a dedicated page: `/kwikkart-project/`, `/soar-playbooks-projec
 
 `src/components/CaseStudy.tsx` provides the page layout, section navigation, image galleries, toolbar comparison, component-layer explorer, impact section, and next-project navigation. `src/caseStudies.ts` contains each project's distinct narrative and figures; `src/case-studies.css` styles the responsive pages. Image sources are recorded in `docs/project-assets.json`.
 
-The contact dialog links to the verified LinkedIn profile and creates a copyable message. It **does not send messages** and stores no contact information persistently. Theme preference is the only local-storage value.
+The contact dialog opens the owner’s Google Form in a new tab. Visitors submit their details through Google Forms; the portfolio does not collect or store their contact information. Enable **Responses → More → Get email notifications for new responses** in Google Forms to receive submission alerts. Theme preference is the only local-storage value.
 
 ## Content provenance
 

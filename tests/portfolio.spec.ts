@@ -252,30 +252,24 @@ test("process accordion exposes the selected step", async ({ page }) => {
   ).toBeHidden();
 });
 
-test("contact validates required inputs and creates a private message draft", async ({
+test("contact directs visitors to the Google Form without a local draft", async ({
   page,
 }) => {
   await page.locator(".button-contact").click();
   const dialog = page.getByRole("dialog");
-  await expect(
-    dialog.getByRole("link", { name: "Connect on LinkedIn" }),
-  ).toHaveAttribute(
+  await expect(dialog).toHaveAccessibleName("Let’s connect for a path forward");
+  const link = dialog.getByRole("link", { name: "Open contact form" });
+  await expect(link).toHaveAttribute(
     "href",
-    "https://www.linkedin.com/in/joseph-smith-04a292127/",
+    "https://forms.gle/93BukTyjxCL5ZKsm7",
   );
-  await dialog.getByRole("button", { name: "Create my note" }).click();
-  await expect(dialog.getByText("Your note is ready.")).toHaveCount(0);
-  await dialog.getByLabel("Name", { exact: true }).fill("Test Designer");
-  await dialog.getByLabel("Email", { exact: true }).fill("test@example.com");
-  await dialog
-    .getByLabel("What’s on your mind?")
-    .fill("Let’s discuss a product design opportunity.");
-  await dialog.getByRole("button", { name: "Create my note" }).click();
-  await expect(dialog.getByLabel("Message preview")).toHaveValue(
-    /Hi Joseph Smith,[\s\S]*Test Designer/,
+  await expect(link).toHaveAttribute("target", "_blank");
+  await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(link).toHaveAccessibleDescription(
+    "Opens in a new tab in Google Forms.",
   );
-  await expect(dialog.getByText("Your note is ready.")).toBeVisible();
-  await expect(dialog.locator(".draft-actions button")).toHaveCount(1);
+  await expect(dialog.locator("input, textarea, form")).toHaveCount(0);
+  await expect(dialog.getByRole("link")).toHaveCount(1);
 });
 
 test("theme preference persists across reload", async ({ page }) => {
@@ -287,24 +281,8 @@ test("theme preference persists across reload", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 });
 
-test("copies contact notes and shareable case-study URLs", async ({
-  page,
-  context,
-}) => {
+test("copies shareable case-study URLs", async ({ page, context }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-  await page.locator(".button-contact").click();
-  await page.getByLabel("Name", { exact: true }).fill("Test Designer");
-  await page.getByLabel("Email", { exact: true }).fill("test@example.com");
-  await page
-    .getByLabel("What’s on your mind?")
-    .fill("A new product opportunity.");
-  await page.getByRole("button", { name: "Create my note" }).click();
-  await page.getByRole("button", { name: "Copy my note" }).click();
-  await expect(page.getByRole("status")).toContainText("Message copied.");
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(
-    "A new product opportunity.",
-  );
-  await page.keyboard.press("Escape");
   await page
     .getByRole("link", { name: "View KwikKart case study", exact: true })
     .click();
