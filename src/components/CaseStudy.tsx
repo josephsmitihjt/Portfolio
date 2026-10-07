@@ -17,7 +17,7 @@ import {
   type StudyImage,
   type StudySection,
 } from "../caseStudies";
-import { projects, site, type Project } from "../content";
+import { projects, type Project } from "../content";
 import { homeUrl, projectUrl } from "../routes";
 import { Reveal } from "./shared";
 import { imageUrl } from "../assets";
@@ -564,14 +564,6 @@ export function CaseStudy({ project }: { project: Project }) {
               <span className="eyebrow">A FINAL THOUGHT</span>
               <p>{study.reflection}</p>
             </div>
-            <a
-              className="text-button study-source"
-              href={`${site.referenceUrl}${project.sourcePath}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Original case study <ArrowUpRight size={15} />
-            </a>
           </Reveal>
         </section>
       </div>

@@ -873,10 +873,6 @@
     color: var(--muted);
     margin-top: 7px;
   }
-  .study-source {
-    margin-top: 31px;
-    font-size: 14px;
-  }
   .next-project {
     padding-block: 46px 43px;
     background: var(--study-tint);
@@ -1617,9 +1613,6 @@
     .study-reflection p {
       font-size: 17px;
       line-height: 1.8;
-    }
-    .study-source {
-      margin-top: 25px;
     }
     .next-project {
       padding-block: 35px;

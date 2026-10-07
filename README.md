@@ -70,7 +70,7 @@ The contact dialog opens the owner’s Google Form in a new tab. Visitors submit
 
 ## Content provenance
 
-Content is adapted from the public home page, `/aboutme`, `/resume`, `/kwikkart-project`, `/soar-playbooks-project`, `/ueba-project`, `/figma-initiative`, and `/qradar-ngsiem-project` on `jtsmith.design`. Case studies link back to their complete published originals.
+Content is adapted from the public home page, `/aboutme`, `/resume`, `/kwikkart-project`, `/soar-playbooks-project`, `/ueba-project`, `/figma-initiative`, and `/qradar-ngsiem-project` on `jtsmith.design`. This portfolio hosts the complete case-study pages.
 
 KwikKart uses public material only and retains the NDA notice. SOAR performance numbers are presented as outcomes reported by the original case study. The SIEM revenue projection is not presented as realized revenue. Conflicting design-library efficiency percentages were omitted in favor of documented deliverables. UEBA's final experience remains identified as a concept.
 
