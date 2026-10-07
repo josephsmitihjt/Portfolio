@@ -265,8 +265,8 @@ test("contact validates required inputs and creates a private message draft", as
   );
   await dialog.getByRole("button", { name: "Create my note" }).click();
   await expect(dialog.getByText("Your note is ready.")).toHaveCount(0);
-  await dialog.getByLabel("Your name").fill("Test Designer");
-  await dialog.getByLabel("Your email").fill("test@example.com");
+  await dialog.getByLabel("Name", { exact: true }).fill("Test Designer");
+  await dialog.getByLabel("Email", { exact: true }).fill("test@example.com");
   await dialog
     .getByLabel("What’s on your mind?")
     .fill("Let’s discuss a product design opportunity.");
@@ -275,8 +275,7 @@ test("contact validates required inputs and creates a private message draft", as
     /Hi Joseph Smith,[\s\S]*Test Designer/,
   );
   await expect(dialog.getByText("Your note is ready.")).toBeVisible();
-  await dialog.getByRole("button", { name: "Write another note" }).click();
-  await expect(dialog.getByLabel("Your name")).toHaveValue("");
+  await expect(dialog.locator(".draft-actions button")).toHaveCount(1);
 });
 
 test("theme preference persists across reload", async ({ page }) => {
@@ -294,8 +293,8 @@ test("copies contact notes and shareable case-study URLs", async ({
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.locator(".button-contact").click();
-  await page.getByLabel("Your name").fill("Test Designer");
-  await page.getByLabel("Your email").fill("test@example.com");
+  await page.getByLabel("Name", { exact: true }).fill("Test Designer");
+  await page.getByLabel("Email", { exact: true }).fill("test@example.com");
   await page
     .getByLabel("What’s on your mind?")
     .fill("A new product opportunity.");
@@ -446,50 +445,42 @@ test("requested typography and removals apply throughout the portfolio", async (
     ),
   ).toHaveCount(0);
   expect(
-    await page
-      .locator("h1")
-      .evaluate((el) => ({
-        family: getComputedStyle(el).fontFamily,
-        weight: getComputedStyle(el).fontWeight,
-      })),
+    await page.locator("h1").evaluate((el) => ({
+      family: getComputedStyle(el).fontFamily,
+      weight: getComputedStyle(el).fontWeight,
+    })),
   ).toEqual({ family: '"Science Gothic Variable", sans-serif', weight: "400" });
   expect(
-    await page
-      .locator(".hero-description")
-      .evaluate((el) => ({
-        family: getComputedStyle(el).fontFamily,
-        weight: getComputedStyle(el).fontWeight,
-      })),
+    await page.locator(".hero-description").evaluate((el) => ({
+      family: getComputedStyle(el).fontFamily,
+      weight: getComputedStyle(el).fontWeight,
+    })),
   ).toEqual({ family: "Montserrat, sans-serif", weight: "500" });
   expect(
-    await page
-      .locator(".hero-intro")
-      .evaluate((el) => ({
-        family: getComputedStyle(el).fontFamily,
-        weight: getComputedStyle(el).fontWeight,
-      })),
+    await page.locator(".hero-intro").evaluate((el) => ({
+      family: getComputedStyle(el).fontFamily,
+      weight: getComputedStyle(el).fontWeight,
+    })),
   ).toEqual({ family: "Doto, monospace", weight: "900" });
   for (const route of ["", ...studies.map(([route]) => route + "/")]) {
     await page.goto("./" + route);
-    const smallText = await page
-      .locator("body *")
-      .evaluateAll((elements) =>
-        elements
-          .filter(
-            (el) =>
-              [...el.childNodes].some(
-                (n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim(),
-              ) &&
-              el.getClientRects().length &&
-              getComputedStyle(el).display !== "none" &&
-              parseFloat(getComputedStyle(el).fontSize) < 14,
-          )
-          .map((el) => ({
-            tag: el.tagName,
-            class: el.className,
-            size: getComputedStyle(el).fontSize,
-          })),
-      );
+    const smallText = await page.locator("body *").evaluateAll((elements) =>
+      elements
+        .filter(
+          (el) =>
+            [...el.childNodes].some(
+              (n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim(),
+            ) &&
+            el.getClientRects().length &&
+            getComputedStyle(el).display !== "none" &&
+            parseFloat(getComputedStyle(el).fontSize) < 14,
+        )
+        .map((el) => ({
+          tag: el.tagName,
+          class: el.className,
+          size: getComputedStyle(el).fontSize,
+        })),
+    );
     expect(smallText).toEqual([]);
   }
 });

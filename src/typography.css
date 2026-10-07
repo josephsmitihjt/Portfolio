@@ -132,3 +132,127 @@
     }
   }
 }
+@layer typography {
+  .hero-footnote {
+    padding-bottom: 48px;
+  }
+  .about-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(40px, 7vw, 100px);
+    align-items: start;
+  }
+  .about-title h2 {
+    line-height: 1.2;
+    font-size: clamp(36px, 4.5vw, 56px);
+  }
+  .about-location {
+    margin-top: 24px;
+  }
+  .about-copy {
+    padding-top: 0;
+  }
+  .about-copy p {
+    font-size: 16px;
+    line-height: 1.9;
+    margin: 0 0 24px;
+  }
+  .about-copy p:last-child {
+    margin-bottom: 0;
+  }
+  .about-skills {
+    margin-top: 40px;
+  }
+  .about-skills h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  .about-skills ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .about-skills li {
+    border: 1px solid #24242466;
+    border-radius: 100px;
+    padding: 10px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .experience-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) auto;
+    gap: 24px;
+  }
+  .recognition-inner {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 16px;
+    padding-block: 24px;
+  }
+  .recognition-inner > span:not(:first-child) {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    border: 1px solid #ffffff40;
+    border-radius: 100px;
+    padding: 12px 20px;
+    background: #ffffff0a;
+  }
+  .recognition-inner > i,
+  .recognition-inner > svg {
+    display: none;
+  }
+  .recognition-label {
+    margin-right: auto;
+  }
+  .project-award,
+  .study-award,
+  .study-recognition {
+    width: fit-content;
+    border: 1px solid currentColor;
+    border-radius: 100px;
+    padding: 10px 16px;
+    line-height: 1.5;
+  }
+  .study-recognition {
+    margin-top: 24px;
+  }
+  .contact-main {
+    grid-template-columns: 1fr;
+  }
+  .contact-modal h2 {
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+  @media (max-width: 850px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  @media (max-width: 700px) {
+    .hero-footnote {
+      padding-bottom: 32px;
+    }
+    .recognition-label {
+      width: 100%;
+      margin-right: 0;
+    }
+    .recognition-inner > span:not(:first-child) {
+      font-size: 16px;
+      padding: 10px 14px;
+      margin: 0;
+    }
+    .experience-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .experience-row > span:last-child {
+      text-align: left;
+    }
+  }
+}

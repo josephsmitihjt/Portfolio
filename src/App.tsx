@@ -73,7 +73,7 @@ export default function App() {
           <>
             <Hero />
             <Work />
-            <About onContact={openContact} />
+            <About />
             <Approach />
             <ContactSection onContact={openContact} />
           </>

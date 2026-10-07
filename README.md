@@ -66,7 +66,7 @@ Each project has a dedicated page: `/kwikkart-project/`, `/soar-playbooks-projec
 
 `src/components/CaseStudy.tsx` provides the page layout, section navigation, image galleries, toolbar comparison, component-layer explorer, impact section, and next-project navigation. `src/caseStudies.ts` contains each project's distinct narrative and figures; `src/case-studies.css` styles the responsive pages. Image sources are recorded in `docs/project-assets.json`.
 
-The contact dialog links to the verified LinkedIn profile and creates a copyable message. It **does not send messages** and stores no contact information persistently. Set a verified public `site.email` in `src/content.ts` to enable the optional email-app handoff. Theme preference is the only local-storage value.
+The contact dialog links to the verified LinkedIn profile and creates a copyable message. It **does not send messages** and stores no contact information persistently. Theme preference is the only local-storage value.
 
 ## Content provenance
 

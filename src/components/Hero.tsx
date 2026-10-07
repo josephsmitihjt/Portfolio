@@ -48,7 +48,6 @@ export function Hero() {
             height="933"
             fetchPriority="high"
           />
-          <span className="portrait-coordinate">30.2672° N / 97.7431° W</span>
         </div>
       </section>
       <section className="recognition" aria-label="Design recognition">

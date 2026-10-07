@@ -1,12 +1,5 @@
 import { useState, type FormEvent } from "react";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Asterisk,
-  Check,
-  Copy,
-  Send,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Asterisk, Check, Copy } from "lucide-react";
 import { site } from "../content";
 import { Reveal, Modal } from "./shared";
 
@@ -33,13 +26,6 @@ export function ContactSection({ onContact }: { onContact: () => void }) {
               <br />
               in mind? <span>Let’s talk.</span>
             </h2>
-            <button
-              className="contact-arrow"
-              onClick={onContact}
-              aria-label="Start a conversation"
-            >
-              <ArrowUpRight strokeWidth={1.25} />
-            </button>
           </div>
           <div className="contact-bottom">
             <p>
@@ -80,22 +66,20 @@ export function ContactModal({ onClose }: { onClose: () => void }) {
   }
   return (
     <Modal
-      title="Start a conversation"
+      title="Let’s connect for a path forward"
       onClose={onClose}
       className="contact-modal"
     >
-      <span className="eyebrow">LET’S MAKE SOMETHING MEANINGFUL</span>
+      <span className="eyebrow">A CONVERSATION WITH PURPOSE</span>
       <h2>
-        A good place
-        <br />
-        to <span>start.</span>
+        Let’s connect for a <span>path forward.</span>
       </h2>
       {!draft ? (
         <>
           <p className="contact-modal-description">
             {site.email
               ? "Tell me a little about what you have in mind. I’ll create a note you can send from your email app."
-              : "Have an idea? Draft a note here, then copy it into your preferred messaging app. Nothing is sent or stored."}
+              : "Share your vision, your challenge, or what comes next. Prepare a personal introduction to share with me on LinkedIn."}
           </p>
           <a
             className="contact-linkedin"
@@ -106,29 +90,29 @@ export function ContactModal({ onClose }: { onClose: () => void }) {
             Connect on LinkedIn <ArrowUpRight size={18} />
           </a>
           <div className="form-divider">
-            <span>OR PUT YOUR IDEA INTO WORDS</span>
+            <span>START WITH AN INTRODUCTION</span>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="form-row">
               <label>
-                Your name
+                Name
                 <input
                   name="name"
                   autoComplete="name"
                   required
                   maxLength={100}
-                  placeholder="Alex Morgan"
+                  placeholder="Name"
                 />
               </label>
               <label>
-                Your email
+                Email
                 <input
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
                   maxLength={200}
-                  placeholder="alex@example.com"
+                  placeholder="Email"
                 />
               </label>
             </div>
@@ -146,7 +130,7 @@ export function ContactModal({ onClose }: { onClose: () => void }) {
               Create my note <ArrowRight size={18} />
             </button>
             <p className="form-note">
-              Your details stay in this browser session.
+              This creates a draft only. Nothing is sent or saved.
             </p>
           </form>
         </>
@@ -170,14 +154,6 @@ export function ContactModal({ onClose }: { onClose: () => void }) {
             <textarea value={draft} readOnly rows={8} />
           </label>
           <div className="draft-actions">
-            {site.email && (
-              <a
-                className="button button-primary"
-                href={`mailto:${site.email}?subject=${encodeURIComponent("Let’s make something meaningful")}&body=${encodeURIComponent(draft)}`}
-              >
-                <Send size={16} /> Open email app
-              </a>
-            )}
             <button className="button button-primary" onClick={copyDraft}>
               {copyState === "copied" ? (
                 <Check size={17} />
@@ -185,15 +161,6 @@ export function ContactModal({ onClose }: { onClose: () => void }) {
                 <Copy size={17} />
               )}
               {copyState === "copied" ? "Copied to clipboard" : "Copy my note"}
-            </button>
-            <button
-              className="text-button"
-              onClick={() => {
-                setDraft("");
-                setCopyState("idle");
-              }}
-            >
-              Write another note
             </button>
           </div>
           <p className="copy-feedback" role="status">
