@@ -269,7 +269,13 @@ test("contact directs visitors to the Google Form without a local draft", async 
     "Opens in a new tab in Google Forms.",
   );
   await expect(dialog.locator("input, textarea, form")).toHaveCount(0);
-  await expect(dialog.getByRole("link")).toHaveCount(1);
+  await expect(dialog.getByRole("link")).toHaveCount(2);
+  const linkedIn = dialog.getByRole("link", { name: "Connect on LinkedIn" });
+  await expect(linkedIn).toHaveAttribute(
+    "href",
+    "https://www.linkedin.com/in/joseph-smith-04a292127/",
+  );
+  await expect(linkedIn).toHaveAttribute("target", "_blank");
 });
 
 test("theme preference persists across reload", async ({ page }) => {

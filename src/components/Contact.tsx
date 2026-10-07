@@ -57,6 +57,21 @@ export function ContactModal({ onClose }: { onClose: () => void }) {
         Whether you’re exploring an opportunity, shaping a product, or looking
         for a fresh perspective, I’d love to hear what you have in mind.
       </p>
+      <a
+        className="contact-linkedin"
+        href={site.linkedIn}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-describedby="linkedin-window-note"
+      >
+        Connect on LinkedIn <ArrowUpRight size={18} />
+      </a>
+      <span className="sr-only" id="linkedin-window-note">
+        Opens in a new tab.
+      </span>
+      <div className="form-divider">
+        <span>OR SHARE A FEW DETAILS</span>
+      </div>
       <p className="contact-form-intro">
         Share a few details about yourself and what comes next through my
         contact form.
