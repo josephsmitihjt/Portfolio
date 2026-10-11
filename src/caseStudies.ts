@@ -35,7 +35,9 @@ const img = (
   caption: string,
   tone?: "dark" | "light",
 ): StudyImage => ({
-  src: imageUrl(`case-studies/${name}.webp`),
+  src: imageUrl(
+    `case-studies/${name.endsWith(".png") ? name : name + ".webp"}`,
+  ),
   alt,
   caption,
   tone,
@@ -106,7 +108,7 @@ export const caseStudies: Record<string, CaseStudy> = {
         ],
         images: [
           img(
-            "kwikkart-platform",
+            "Companion images.png",
             "KwikKart device with multiple digital shopping screens above it",
             "A shared hardware foundation for multiple retail experiences.",
           ),

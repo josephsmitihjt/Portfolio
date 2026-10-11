@@ -45,7 +45,7 @@ export const projects: Project[] = [
       "One lightweight device. A connected ecosystem for frictionless shopping, store intelligence, and in-aisle retail media.",
     category: "Product design",
     tags: ["Product leadership", "Hardware + software", "Retail"],
-    image: imageUrl("kwikkart.webp"),
+    image: imageUrl("case-studies/KK_render_white_BK 1.png"),
     imageAlt: "KwikKart smart checkout device mounted on a shopping cart",
     company: "KwikKart",
     role: "Co-founder & Chief Product Officer",
