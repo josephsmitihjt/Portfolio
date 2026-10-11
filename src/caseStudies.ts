@@ -90,12 +90,11 @@ export const caseStudies: Record<string, CaseStudy> = {
           },
         ],
         images: [
-          img(
-            "kwikkart-ecosystem",
-            "KwikKart ecosystem illustration connecting shoppers, shelves, advertising, and analytics",
-            "The public product vision: one device connecting the physical store.",
-            "dark",
-          ),
+          {
+            src: imageUrl("Grocery store tech showcase.png"),
+            alt: "Grocery store concept showing a shopper with a cart-mounted display, shelf-scanning technology, and digital retail media.",
+            caption: "A connected retail ecosystem: shopper experience, store intelligence, and in-aisle media.",
+          },
         ],
       },
       {
