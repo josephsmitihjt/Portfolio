@@ -1,3 +1,4 @@
+import { AnimatedText } from "./Motion";
 import { useEffect, useState } from "react";
 import {
   ArrowDown,
@@ -401,8 +402,11 @@ export function CaseStudy({ project }: { project: Project }) {
               {study.chapter}
             </span>
             <h1>
-              {project.name}
-              <span className="study-period">.</span>
+              <AnimatedText
+                text={project.name}
+                offset={100}
+                suffix={<span className="study-period">.</span>}
+              />
             </h1>
             <p className="study-deck">{study.headline}</p>
             <p className="study-summary">{study.summary}</p>

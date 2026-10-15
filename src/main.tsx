@@ -7,6 +7,7 @@ import App from "./App";
 import "./styles.css";
 import "./case-studies.css";
 import "./typography.css";
+import "./motion.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

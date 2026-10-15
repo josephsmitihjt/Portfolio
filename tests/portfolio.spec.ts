@@ -507,3 +507,34 @@ test("UEBA prototype loads, plays on demand and has a text alternative", async (
     "Apache web server",
   );
 });
+
+test("motion introduces sections once and responds to reduced-motion changes", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.reload();
+  await expect(page.locator("#hero-title .motion-word")).toHaveCount(4);
+  await expect
+    .poll(() =>
+      page
+        .locator("#hero-title .motion-word")
+        .evaluateAll((elements) =>
+          elements.every((el) => getComputedStyle(el).opacity === "1"),
+        ),
+    )
+    .toBe(true);
+  await page.locator("#work-title").scrollIntoViewIfNeeded();
+  await expect(page.locator("#work-title")).toHaveClass(/intro-entered/);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".motion-intro")).toHaveCount(0);
+  expect(
+    await page
+      .locator(".motion-word")
+      .first()
+      .evaluate((el) => getComputedStyle(el).animationName),
+  ).toBe("none");
+  await expect(page.locator(".reading-progress")).toBeHidden();
+  await expect(page.locator("#hero-title")).toHaveAccessibleName(
+    "Complex problems. Clear experiences.",
+  );
+});

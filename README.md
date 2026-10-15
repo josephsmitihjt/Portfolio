@@ -91,3 +91,7 @@ Local image assets were downloaded from the same site and resized/compressed to 
 No client data, credentials, or unpublished design files are included.
 
 The UEBA final-concept section embeds the supplied prototype recording as a silent, user-controlled MP4 with a poster and an expandable walkthrough description. The original video frames are preserved, the audio is removed at the owner’s request, and fast-start metadata supports streaming. Playback does not start automatically.
+
+## Motion
+
+The feature/immersive-motion branch adds staggered title text, one-time section introductions, native smooth anchor scrolling, subtle desktop portrait depth, a scroll-linked reading-progress line, and hover transitions. src/components/Motion.tsx handles text and heading observation; src/motion.css contains the motion system. Scroll-linked effects use CSS scroll timelines with progressive enhancement. All added motion is disabled for reduced-motion preferences, including preference changes during a visit. No wheel or touch scrolling is intercepted.

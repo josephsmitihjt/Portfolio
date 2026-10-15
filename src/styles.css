@@ -303,7 +303,7 @@
     line-height: 1.04;
     letter-spacing: -5.8px;
   }
-  .hero h1 > span:not(.hero-period) {
+  .hero h1 > span:not(.hero-period):not(.motion-word) {
     color: var(--muted);
   }
   .hero-period {

@@ -1,3 +1,4 @@
+import { MotionExperience } from "./components/Motion";
 import { CaseStudy } from "./components/CaseStudy";
 import { projectUrl } from "./routes";
 import { useEffect, useState } from "react";
@@ -79,6 +80,7 @@ export default function App() {
           </>
         )}
       </main>
+      <MotionExperience />
       <Footer />
       {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
     </>

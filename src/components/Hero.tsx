@@ -1,3 +1,4 @@
+import { AnimatedText } from "./Motion";
 import { imageUrl } from "../assets";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
@@ -15,13 +16,19 @@ export function Hero() {
             <span className="intro-line" />
           </div>
           <h1 id="hero-title">
-            Complex
+            <AnimatedText text="Complex" offset={80} />
             <br />
-            problems.
+            <AnimatedText text="problems." offset={160} />
             <br />
-            <span>Clear</span>
+            <span>
+              <AnimatedText text="Clear" offset={240} />
+            </span>
             <br />
-            experiences<span className="hero-period">.</span>
+            <AnimatedText
+              text="experiences"
+              offset={320}
+              suffix={<span className="hero-period">.</span>}
+            />
           </h1>
           <p className="hero-description">
             I’m Joseph Smith. I connect people, strategy, and technology to
