@@ -8,8 +8,7 @@ export const site = {
   contactForm: "https://forms.gle/93BukTyjxCL5ZKsm7",
   referenceUrl: "https://jtsmith.design/",
   linkedIn: "https://www.linkedin.com/in/joseph-smith-04a292127/",
-  resume:
-    "https://drive.google.com/file/d/1fNQyYcUlHL-aJLsOUf1Bw7jJaR7gfR31/view?usp=sharing",
+  resume: `${import.meta.env.BASE_URL}documents/Joseph-Smith-Resume.pdf`,
 };
 export type ProjectCategory = "Product design" | "Design systems" | "Strategy";
 export type Project = {

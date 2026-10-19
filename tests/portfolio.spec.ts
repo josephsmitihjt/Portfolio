@@ -538,3 +538,29 @@ test("motion introduces sections once and responds to reduced-motion changes", a
     "Complex problems. Clear experiences.",
   );
 });
+
+test("resume links open the bundled PDF in a new tab", async ({
+  page,
+  request,
+}) => {
+  const links = page.getByRole("link", {
+    name: "Resume (PDF, opens in a new tab)",
+    includeHidden: true,
+  });
+  await expect(links).toHaveCount(2);
+  for (const link of await links.all()) {
+    await expect(link).toHaveAttribute(
+      "href",
+      /documents\/Joseph-Smith-Resume.pdf$/,
+    );
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    await expect(link).not.toHaveAttribute("download");
+  }
+  const response = await request.get(
+    (await links.first().getAttribute("href"))!,
+  );
+  expect(response.status()).toBe(200);
+  expect(response.headers()["content-type"]).toContain("application/pdf");
+  expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-");
+});

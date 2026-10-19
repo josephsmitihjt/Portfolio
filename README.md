@@ -95,3 +95,5 @@ The UEBA final-concept section embeds the supplied prototype recording as a sile
 ## Motion
 
 The feature/immersive-motion branch adds staggered title text, one-time section introductions, native smooth anchor scrolling, subtle desktop portrait depth, a scroll-linked reading-progress line, and hover transitions. src/components/Motion.tsx handles text and heading observation; src/motion.css contains the motion system. Scroll-linked effects use CSS scroll timelines with progressive enhancement. All added motion is disabled for reduced-motion preferences, including preference changes during a visit. No wheel or touch scrolling is intercepted.
+
+The Resume links open the self-hosted PDF in a new tab using the browser’s PDF viewer. Replace public/documents/Joseph-Smith-Resume.pdf to update it; the URL respects the hosting base path. No Google Drive link or third-party viewer is needed.

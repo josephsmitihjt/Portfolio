@@ -86,6 +86,7 @@ export function Header({
           ))}
           <a
             href={site.resume}
+            aria-label="Resume (PDF, opens in a new tab)"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
@@ -140,7 +141,12 @@ export function Footer() {
         <div className="footer-links">
           <a href={homeUrl("work")}>Projects</a>
           <a href={homeUrl("about")}>About</a>
-          <a href={site.resume} target="_blank" rel="noopener noreferrer">
+          <a
+            href={site.resume}
+            aria-label="Resume (PDF, opens in a new tab)"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Resume <ArrowUpRight size={13} />
           </a>
           <a href={site.linkedIn} target="_blank" rel="noopener noreferrer">
